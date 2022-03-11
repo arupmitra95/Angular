@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -7,15 +9,19 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
-  recipes: Recipe[] = [
-    new Recipe('Test Recipe', 'This is a test Recipe','https://cdn.loveandlemons.com/wp-content/uploads/2020/03/pantry-recipes-2-853x1024.jpg'),
-    new Recipe('Test Recipe1', 'This is a test Recipe1','https://cdn.loveandlemons.com/wp-content/uploads/2020/03/pantry-recipes-2-853x1024.jpg')
-  ];
-
-
-  constructor() { }
+  recipes!: Recipe[];
+ 
+  constructor(private RcpSrv: RecipeService,
+    private route: Router,
+    private router: ActivatedRoute) {
+    this.recipes = this.RcpSrv.getData();   
+  }
 
   ngOnInit(): void {
+  }
+
+  onNewRecipe(){
+    this.route.navigate(['new'], {relativeTo: this.router});
   }
 
 }
